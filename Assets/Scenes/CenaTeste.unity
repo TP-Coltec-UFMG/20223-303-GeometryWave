@@ -1607,6 +1607,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395263321}
   m_CullTransparentMesh: 1
+--- !u!1 &415476505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 415476506}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &415476506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415476505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &418296829
 GameObject:
   m_ObjectHideFlags: 0
@@ -8090,6 +8121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2035121941}
+  - component: {fileID: 2035121942}
   m_Layer: 0
   m_Name: Inimigos
   m_TagString: Untagged
@@ -8112,6 +8144,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2035121942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035121940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ccb50b3ffa6e546a9caa4f2aeca190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentPrefab: {fileID: 4108552112403267439, guid: c987e7a7634bd599a94defc9b47f6746, type: 3}
+  behavior: {fileID: 11400000, guid: 0eaf1cdf4fb21254aa7dfc09d27356b8, type: 2}
+  startingCount: 50
+  driveFactor: 10
+  maxSpeed: 5
+  neighborRadius: 2
+  avoidanceRadiusMultiplier: 0.5
 --- !u!1 &2059077343
 GameObject:
   m_ObjectHideFlags: 0
@@ -8414,6 +8465,10 @@ PrefabInstance:
     - target: {fileID: 200394870337230261, guid: 32e27500920bb86388bb58ec3c1e77e3, type: 3}
       propertyPath: m_Name
       value: SpawnerInimigo
+      objectReference: {fileID: 0}
+    - target: {fileID: 200394870337230261, guid: 32e27500920bb86388bb58ec3c1e77e3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32e27500920bb86388bb58ec3c1e77e3, type: 3}
