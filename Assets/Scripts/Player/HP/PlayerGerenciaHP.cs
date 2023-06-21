@@ -10,10 +10,16 @@ public class PlayerGerenciaHP : FuncoesGerais
     SpriteRenderer sprRenderer;
     public bool tomaDano = true;
     Collider2D colisor;
+    public bool isDead = false;
+
+    private MenuInGame menuInGame;
 
     // Start is called before the first frame update
     void Start()
     {
+        menuInGame = GameObject.Find("GameManager").GetComponent<MenuInGame>();
+        menuInGame.GetPlayerHP();
+        barra = GameObject.Find("VidaBarra").GetComponent<Image>();
         hp = maxHp;
         sprRenderer = GetComponent<SpriteRenderer>();
         colisor = GetComponent<Collider2D>();
@@ -22,6 +28,7 @@ public class PlayerGerenciaHP : FuncoesGerais
     void Update() {
         EsticaBarraHP();
     }
+
 
     public void TomaDano(float dano) {
         hp -= dano;

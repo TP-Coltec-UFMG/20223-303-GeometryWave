@@ -17,6 +17,11 @@ GameObject:
   - component: {fileID: 502793457}
   - component: {fileID: 502793455}
   - component: {fileID: 502793463}
+  - component: {fileID: -6446175148729921033}
+  - component: {fileID: -1850487716486216438}
+  - component: {fileID: 8212911136221386637}
+  - component: {fileID: -7036750520366414107}
+  - component: {fileID: 9017880253087090154}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -109,6 +114,7 @@ MonoBehaviour:
   vel: 7
   velAtual: 0
   move: 1
+  miraAutomatico: 0
   vetorMove: {x: 0, y: 0, z: 0}
 --- !u!114 &5020625144825689880
 MonoBehaviour:
@@ -127,6 +133,7 @@ MonoBehaviour:
   tempoIvulneravel: 2
   barra: {fileID: 0}
   tomaDano: 1
+  isDead: 0
 --- !u!60 &-7731543713328102369
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -170,12 +177,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde8b184cfefa0addac4f5477a6a4e63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modoTiro: 0
-  numTiros: 3
+  numTiros: 4
   spritesPlayer:
-  - {fileID: 21300000, guid: e5bd34ef525440e4f8f7749dc4f82a76, type: 3}
+  - {fileID: 21300000, guid: 452246a467ad73acbbb3e3602e57adfa, type: 3}
   - {fileID: 21300000, guid: 3d3107fa61fc03f48af480a12dbc98ae, type: 3}
   - {fileID: 21300000, guid: 1464c9e8a16364043a97294c59237135, type: 3}
+  - {fileID: 21300000, guid: ea314f0b5cec799448f753895f059ff3, type: 3}
+  modoTiro:
+    m_InternalValue: 0
 --- !u!50 &502793457
 Rigidbody2D:
   serializedVersion: 4
@@ -209,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0683c1c6553c6f2cfaddafa27f19c39d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vel: 1250
+  vel: 2000
   tempoCarrega: 1
   tempoParado: 0.001
 --- !u!114 &502793463
@@ -228,6 +237,95 @@ MonoBehaviour:
   maxXp: 4
   level: 0
   barra: {fileID: 0}
+--- !u!114 &-6446175148729921033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976682552676660537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd3cac944d740ce8ba2f9f7aaa92400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+  isMp: 0
+--- !u!114 &-1850487716486216438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976682552676660537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &8212911136221386637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976682552676660537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb31a5c070108f3f8c4e3c5bc0ded69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &-7036750520366414107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976682552676660537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7e346747cf0b25d8ba45b1ccd9ec81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raioSpawn: 2.5
+--- !u!114 &9017880253087090154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976682552676660537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ecce0d5853d68ea99c7dbc66b092eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.8867924, g: 0.1966002, b: 0.1966002, a: 0}
 --- !u!1001 &8937601226480865316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247,6 +345,10 @@ PrefabInstance:
       propertyPath: atirador
       value: 
       objectReference: {fileID: 4976682552676660537}
+    - target: {fileID: -8565225797330200331, guid: c370f096daef7054d94f2bf01542a1df, type: 3}
+      propertyPath: objTeleguiada
+      value: 
+      objectReference: {fileID: 343719744800645539, guid: 10df45d1dcb682b6fa2917cdf9e9e66a, type: 3}
     - target: {fileID: 824907516855740175, guid: c370f096daef7054d94f2bf01542a1df, type: 3}
       propertyPath: m_Name
       value: AtiraPlayer

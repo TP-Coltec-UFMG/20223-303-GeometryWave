@@ -1,41 +1,46 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
+using Unity.Netcode;
 
 public class IniciaOnda : FuncoesGerais
 {
     public int onda = 0, numDificuldades;
-    public float dificuldade, dificuldadeTotal, tamanhoMargem, alturaTela, larguraTela;
+    public float tempoEspera, dificuldade, dificuldadeTotal, tamanhoMargem, alturaTela, larguraTela;
     public GameObject[] inimigosDif1, inimigosDif2, inimigosDif3;
     private Vector2 distanciaMargem;
     private GameObject[][] listaInimigos;
     private GameObject texto;
     private FuncoesTexto funcoesTexto;
+    private NetworkStart NetworkInfo;
     
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(ChecaInimigos());
+        NetworkInfo = GameObject.Find("NetworkManager").GetComponent<NetworkStart>();
+        gameObject.name = "SpawnerInimigo";
         distanciaMargem = new Vector2(larguraTela - tamanhoMargem, alturaTela - tamanhoMargem);
         dificuldadeTotal *= dificuldade;
         listaInimigos = new GameObject[][] {inimigosDif1};
         
         texto = GameObject.Find("TextoGrandeMapa");
         funcoesTexto = texto.GetComponent<FuncoesTexto>();
+        if(IsHost)
+            StartCoroutine(ChecaInimigos());
     }
 
     IEnumerator ChecaInimigos() {
         // Procura todos os objetos com a tag "Inimigo". Se não tiver inimigos, cria uma nova onda
         GameObject[] inimigos = GameObject.FindGameObjectsWithTag("Inimigo");
 
-        if(inimigos.Length == 0) {
+        if(inimigos.Length == 0 && NetworkStart.gameStarted == true) {
             StartCoroutine(CriaOnda());
         }
         else {
             // Espera 1 segundo e executa a função de novo. Não está usando Update porque só precisa rodar 1 vez por segundo em vez de 1 vez por frame.
             // Não reinicia toda vez porque o CriaOnda() espera um tempo antes de spawnar os inimigos. Se fizesse a checagem durante esse tempo, ia 
             // criar várias ondas antes da primeira spawnar.
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(tempoEspera);
             StartCoroutine(ChecaInimigos());
         }
     }
@@ -53,16 +58,29 @@ public class IniciaOnda : FuncoesGerais
         }
 
         Vector3 posicaoSpawn = new Vector3 (posX, posY, 0);
-        Instantiate(inimigo, posicaoSpawn, Quaternion.identity);
-    }                                                       
+        GameObject novoInimigo = Instantiate(inimigo, posicaoSpawn, Quaternion.identity);
+        novoInimigo.GetComponent<NetworkObject>().Spawn();
+    }
+
+    [ServerRpc]
+    void IniciarChecaInimigosServerRpc()
+    {
+        Debug.LogWarning(IsServer);
+        StartCoroutine(ChecaInimigos());
+    }                                                    
     
+    [ClientRpc]
+    void MostrarOndaClientRpc(int onda)
+    {
+        funcoesTexto.MostraFade(1.5f, 1.5f, "Onda " + onda);
+    }
     IEnumerator CriaOnda() {
         yield return new WaitForSeconds(2);
         int dificuldadeDisponivel = (int) dificuldadeTotal;
         onda++;
 
-        string strOnda = "Onda " + onda;
-        funcoesTexto.MostraFade(1.5f, 1.5f, strOnda);
+        Debug.LogWarning(IsServer);
+        MostrarOndaClientRpc(onda);
 
         while (dificuldadeDisponivel > 0) {
             // Escolhe o menor número entre numDificuldades e dificuldadeDisponivel
