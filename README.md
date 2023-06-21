@@ -55,9 +55,13 @@ Essa API não possui suporte para Linux, por esse motivo, decidimos que iriamos 
 Utilizamos diversos ícones em todos os botões para ajudar pessoas que têm problemas de dislexia.
 
 <h3>Para Pessoas com Dificuldades Motoras</h3>
-
-Adicionamos opções que permitem mira e tiro automáticos para remover a necessidade de uso prolongado do mouse (não são ativáveis através do menu ainda). </br>
-Além disso, adicionamos um sistema de dificuldade que pode tornar os inimigos menos rápidos e numerosos, diminuindo drasticamente a necessidade de movimento preciso e rápido.
+<p>
+  Adicionamos opções que permitem mira e tiro automáticos para remover a necessidade de uso prolongado do mouse (não são ativáveis através do menu ainda). </br>
+  Além disso, adicionamos um sistema de dificuldade que pode tornar os inimigos menos rápidos e numerosos, diminuindo drasticamente a necessidade de movimento preciso e rápido.
+</p>
+<p>
+<img src="./Imagens/MiraAuto.png" width="580px"/>
+</p>
 
 <h3>A Serem Importadas</h3>
 
