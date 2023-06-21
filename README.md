@@ -56,7 +56,7 @@ Utilizamos diversos ícones em todos os botões para ajudar pessoas que têm pro
 
 <h3>Para Pessoas com Dificuldades Motoras</h3>
 <p>
-  Adicionamos opções que permitem mira e tiro automáticos para remover a necessidade de uso prolongado do mouse (ambos fucnionam, mas tiro automático não é ativável via menu ainda). </br>
+  Adicionamos opções que permitem mira e tiro automáticos para remover a necessidade de uso prolongado do mouse (ambos funcionam, mas tiro automático não é ativável via menu ainda). </br>
   Além disso, adicionamos um sistema de dificuldade que pode tornar os inimigos menos rápidos e numerosos, diminuindo drasticamente a necessidade de movimento preciso e rápido.
 </p>
 <p>
