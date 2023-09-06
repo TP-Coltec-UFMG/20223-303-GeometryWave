@@ -1,62 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Unity.Netcode;
 
 public class MudaBala : NetworkBehaviour
 {
+    [SerializeField] private InputActionReference mudaKeyboard;
+    
     public int numTiros;
     SpriteRenderer sprRenderer;
     GameObject arma;
     public Sprite[] spritesPlayer;
-    private PlayerNetwork PlayerNet;
-    public NetworkVariable<int> modoTiro = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> modoTiro = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     void Start() 
     {
-        PlayerNet = GetComponent<PlayerNetwork>();
         sprRenderer = GetComponent<SpriteRenderer>();
         arma = transform.GetChild(0).gameObject;
-        modoTiro.Value = 0;
-        MudaSprite(modoTiro.Value);
+    }
+    
+    //Input System functions
+
+    private void OnEnable() {
+        mudaKeyboard.action.Enable();
+        mudaKeyboard.action.performed += GetValorTeclado;
+    }
+
+    private void OnDisable() {
+        mudaKeyboard.action.performed -= GetValorTeclado;
+        mudaKeyboard.action.Disable();
+    }
+
+    private void GetValorTeclado(InputAction.CallbackContext obj) {
+        MudaArma(1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(PlayerNet.CheckForClient() == false) return;
-        GetModo();
+        UpdateSprite();
+        if(!IsOwner) return;
+        if(TimeManager.localPause == true) return;
+        GetValorScroll();
     }
-
-    void MudaSprite(int novoValor) {
-        sprRenderer.sprite = spritesPlayer[novoValor];
-    }
-
-    [ClientRpc]
-    void ReceberNovoSpriteClientRpc(int novoValor)
+    void UpdateSprite()
     {
-        Debug.Log("Sprite Recebido");
-        sprRenderer.sprite = spritesPlayer[novoValor];
+        sprRenderer.sprite = spritesPlayer[modoTiro.Value];
     }
 
-    [ServerRpc] 
-    void EnviarNovoSpriteServerRpc(int novoValor)
-    {
-        Debug.Log("Sprite Enviado");
-        modoTiro.Value = novoValor;
-        ReceberNovoSpriteClientRpc(novoValor);
-    }
-
-    void GetModo() {
+    void GetValorScroll() {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
-        if (scroll != 0 && IsOwner)  {
+        if (scroll != 0 && IsOwner)
+        {
             scroll = scroll/Mathf.Abs(scroll);
-
-            int novoValor = (modoTiro.Value + (int) scroll) % numTiros;
-
-            if(novoValor < 0) novoValor = numTiros - 1;
-            EnviarNovoSpriteServerRpc(novoValor);
+            MudaArma((int) scroll);
         }
+    }
+
+
+    void MudaArma(int valorSoma) {
+        int novoValor = (modoTiro.Value + valorSoma) % numTiros;
+
+        if(novoValor < 0) novoValor = numTiros - 1;
+        modoTiro.Value = novoValor;
     }
 }

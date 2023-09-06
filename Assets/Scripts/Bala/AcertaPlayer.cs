@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class AcertaPlayer : FuncoesBala
+public class AcertaPlayer : AcertaAlvo
 {
-    public float dano;
+    [SerializeField] private bool destroi;
+    private void Start() {
+        tagAlvo = "Player";
+    }
 
-    void OnCollisionEnter2D(Collision2D other) {
+    private void OnCollisionEnter2D(Collision2D other) {
         GameObject outro = other.gameObject;
         string tag = outro.tag;
 
-        switch (tag)
-        {
-            case "Player":
-                outro.GetComponent<PlayerGerenciaHP>().TomaDano(dano);
-                if(IsHost) DestroiBalaServerRpc();
-            break;
-            
-            default:
-            break;
+        if (tag == tagAlvo) {
+            HandleAlvo(outro);
         }
+    }
+
+    private void HandleAlvo(GameObject alvo) {
+        alvo.GetComponent<PlayerGerenciaHP>().TomaDano(dano);
+        
+        if (destroi)
+            DestroiBala();
     }
 }

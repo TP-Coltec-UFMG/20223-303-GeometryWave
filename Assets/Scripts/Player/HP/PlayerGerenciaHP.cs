@@ -2,44 +2,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class PlayerGerenciaHP : FuncoesGerais
+public class PlayerGerenciaHP : NetworkBehaviour
 {
-    public float maxHp, hp, tempoIvulneravel;
-    public Image barra; 
+    public NetworkVariable<float> maxHp = new(
+        value: 0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+    );
+    public NetworkVariable<float> hp = new(
+        value: 0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+    );
+    public NetworkVariable<float> tempoInvulneravel = new(
+        value: 0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+    );
+
+    public Image barra;
     SpriteRenderer sprRenderer;
     public bool tomaDano = true;
+    public static bool isDead;
     Collider2D colisor;
-    public bool isDead = false;
+    [SerializeField] private GameObject death_Screen;
 
-    private MenuInGame menuInGame;
-
-    // Start is called before the first frame update
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        maxHp.Value = 10;
+        hp.Value = maxHp.Value;
+        tempoInvulneravel.Value = 2.0f;
+    }
     void Start()
     {
-        menuInGame = GameObject.Find("GameManager").GetComponent<MenuInGame>();
-        menuInGame.GetPlayerHP();
         barra = GameObject.Find("VidaBarra").GetComponent<Image>();
-        hp = maxHp;
         sprRenderer = GetComponent<SpriteRenderer>();
         colisor = GetComponent<Collider2D>();
     }
 
-    void Update() {
+    void Update()
+    {
+        if(!IsOwner) return;
         EsticaBarraHP();
     }
 
+    public async void TomaDano(float dano)
+    {
+        if(!IsOwner) return;
+        
+        hp.Value -= dano;
+        isDead = hp.Value <= 0;
+        if(isDead)
+        {
+            RemovePlayerServerRpc();
+            hp.Value = 0;
+            EsticaBarraHP();
+            await GameObject.Find("GameManager").GetComponent<DeathManager>().KillPlayer();
+        }
+        else StartCoroutine(Invulneravel());
+    }
 
-    public void TomaDano(float dano) {
-        hp -= dano;
-        StartCoroutine(Ivulneravel());
+    [ServerRpc]
+    public void RemovePlayerServerRpc()
+    { 
+        NetworkObject.Despawn(true);
+        GameObject.Find("Network").GetComponent<NetStatus>().PlayersAlive.Value--;
     }
 
     void EsticaBarraHP() {
-        barra.fillAmount = Mathf.Clamp(hp/maxHp, 0, 1f); 
+        barra.fillAmount = Mathf.Clamp(hp.Value/maxHp.Value, 0, 1f); 
     }
 
-    IEnumerator Ivulneravel() {
+    IEnumerator Invulneravel() {
         // Torna objeto transparente (temp.a é a opacidade)
         Color temp = sprRenderer.color;
         temp.a = 0.25f;
@@ -47,7 +84,7 @@ public class PlayerGerenciaHP : FuncoesGerais
 
         colisor.isTrigger = true; // Deixa de ter colisão com rigidbodies
 
-        yield return new WaitForSeconds(tempoIvulneravel);
+        yield return new WaitForSeconds(tempoInvulneravel.Value);
 
         // Torna objeto opaco
         temp.a = 1f;

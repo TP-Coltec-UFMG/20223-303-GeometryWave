@@ -6,38 +6,41 @@ TagManager:
   tags:
   - Inimigo
   - BalaPlayer
+  - LimiteTela
+  - interativos
+  - Menus
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Inimigo
   - Water
   - UI
+  - Balas Inimigo
+  - UI2
+  - 
+  - 
+  - Barreiras
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - Fade
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   m_SortingLayers:
   - name: Default

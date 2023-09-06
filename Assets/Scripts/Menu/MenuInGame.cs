@@ -2,81 +2,45 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class MenuInGame : MonoBehaviour
 {
-    [SerializeField] private GameObject menu;
-    [SerializeField] private GameObject quitConfirmation;
-    [SerializeField] private GameObject diedScreen;
-
-    public PlayerGerenciaHP playerhp;
+    [SerializeField] public GameObject menu;
+    [SerializeField] private GameObject quitConfirmation, diedScreen;
+    
+    private PlayerGerenciaHP playerhp;
     private SceneFadeAnimation fade;
-    public GameObject player;
+    private GameObject player;
+    private GoBack goBack;
+    private TimeManager timeManager;
+    public static bool isOpen = false;
 
     void Start()
     {
         player = GameObject.Find("Player");
         fade = GameObject.Find("Scene_Animation").GetComponent<SceneFadeAnimation>();
-        GetPlayerHP();
-        Continuar();
-
+        goBack = GameObject.Find("GameManager").GetComponent<GoBack>();
+        timeManager = GameObject.Find("GameManager").GetComponent<TimeManager>();
+        goBack.Continuar();
     }
 
-    void Update()
+    public void OpenMenu()
     {
-        if(Input.GetKeyDown("escape"))
-        {
-            Esc();
-        }
-        
-        if(player != null){
-            if(playerhp.hp <= 0)
-            {
-                Time.timeScale = 0;
-                diedScreen.SetActive(true);
-            }
-        }
-    }
-
-    public void GetPlayerHP()
-    {
-        if(player != null) playerhp = GameObject.Find("Player").GetComponent<PlayerGerenciaHP>();
+        isOpen = true;
+        timeManager.Pause();
+        goBack.menus.Push(menu);
+        menu.SetActive(true);
     }
 
 
     public void QuitConfirmation()
     {
         quitConfirmation.SetActive(true);
-        menu.SetActive(false);
-    }
-
-    public void CloseQuitConfirmation()
-    {
-        menu.SetActive(true);
-        quitConfirmation.SetActive(false);
+        goBack.menus.Push(quitConfirmation);
     }
 
     public void Inicio()
     {
+        GameObject.Find("GameManager").GetComponent<TimeManager>().Resume();
         fade.FadeToMenu();
     }
-
-    public void Esc()
-    {
-        if(Time.timeScale == 0 && menu.activeSelf == true){
-            Continuar();
-        }
-        else if(Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-            menu.SetActive(true);
-        }
-    }
-
-    public void Continuar()
-    {
-        menu.SetActive(false);
-        Time.timeScale = 1;
-    }
-
 }

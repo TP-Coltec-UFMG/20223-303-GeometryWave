@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3444161812712832090}
   - component: {fileID: 1426264773296543303}
+  - component: {fileID: 2595209105721176908}
   m_Layer: 3
   m_Name: AtiraInimigo
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3351200968888066478}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.009, y: 2.72, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,9 +46,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atirador: {fileID: 0}
-  velAtirarMax: 4
-  velAtirarMin: 1
-  nomeBala: '"Bala Inimigo Basica"'
+  fonteAudio: {fileID: 0}
+  efeitosArmas: []
+  childIndex: 0
+  tipoBala: 0
+--- !u!114 &2595209105721176908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3351200968888066478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4916f17272c8aecbc6772dab015d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velVirar: 300
+  velocidade:
+    m_InternalValue: 1
+  player: {fileID: 0}
+  mudaAngulo: 1
+  move: 0
 --- !u!1 &5010567226698321705
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,13 +78,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7173218427032206414}
   - component: {fileID: 1187362415}
-  - component: {fileID: 5258545932206690551}
+  - component: {fileID: 1030447648128241332}
   - component: {fileID: 442041107503138968}
   - component: {fileID: 5300620861288615379}
-  - component: {fileID: 263212611821273094}
   - component: {fileID: 7128290269593085256}
   - component: {fileID: 7029141786953404993}
   - component: {fileID: 4359165456613868317}
+  - component: {fileID: 8919938143576646937}
+  - component: {fileID: 4622465723885551501}
   m_Layer: 3
   m_Name: InimigoBasico
   m_TagString: Inimigo
@@ -81,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 5010567226698321705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 311.03632, y: 331.77386, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3444161812712832090}
@@ -102,12 +123,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valorXp: 1
   maxHp: 10
-  danoBala: 2
-  velBala: 50
+  multiplicadorDanoBala: 0
+  multiplicadorVelBala: 0
   velAtirarMax: 2
   velAtirarMin: 3
   velMovimento: 3
---- !u!114 &5258545932206690551
+--- !u!114 &1030447648128241332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,14 +137,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5010567226698321705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe4916f17272c8aecbc6772dab015d3c, type: 3}
+  m_Script: {fileID: 11500000, guid: b6f110a3fd1c9ac4ea945f6a06047b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 3
-  velVirar: 200
-  player: {fileID: 0}
-  mudaAngulo: 1
-  move: 1
 --- !u!114 &442041107503138968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2297998ae597b95a089557a76f7b0693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10000
+  maxHp: 10
   hp: 0
 --- !u!50 &5300620861288615379
 Rigidbody2D:
@@ -159,41 +175,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &263212611821273094
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5010567226698321705}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.15, y: 1.15}
-    newSize: {x: 1.15, y: 1.15}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.575, y: -0.015}
-      - {x: -0.055, y: -0.575}
-      - {x: 0.024999999, y: -0.575}
-      - {x: 0.575, y: -0.055}
-      - {x: 0.575, y: 0.015}
-      - {x: 0.044999998, y: 0.575}
-      - {x: -0.015, y: 0.575}
-      - {x: -0.575, y: 0.055}
-    - - {x: -0.385, y: -0.005}
-      - {x: -0.005, y: 0.385}
 --- !u!212 &7128290269593085256
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -235,7 +216,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 80969d810d907394a9fc27e9f0baa30d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ea1fbbb522724afdb3452206c0866dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -278,3 +259,83 @@ MonoBehaviour:
   SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &8919938143576646937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010567226698321705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!60 &4622465723885551501
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010567226698321705}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 1.15, y: 1.15}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 2.4099998, y: -0.12}
+      - {x: 2.4099998, y: 0.11}
+      - {x: 2.3899999, y: 0.17}
+      - {x: 2.32, y: 0.26999998}
+      - {x: 0.26, y: 2.32}
+      - {x: 0.26, y: 2.4099998}
+      - {x: -0.21, y: 2.4099998}
+      - {x: -0.26999998, y: 2.32}
+      - {x: -2.32, y: 0.26}
+      - {x: -2.3899999, y: 0.16}
+      - {x: -2.4099998, y: 0.12}
+      - {x: -2.4099998, y: -0.08}
+      - {x: -2.3999999, y: -0.17}
+      - {x: -2.32, y: -0.26999998}
+      - {x: -0.22, y: -2.3799999}
+      - {x: -0.089999996, y: -2.4099998}
+      - {x: 0.12, y: -2.4099998}
+      - {x: 0.21, y: -2.37}
+      - {x: 2.32, y: -0.26999998}
+      - {x: 2.3899999, y: -0.22}
+    - - {x: -1.93, y: 0}
+      - {x: 0, y: 1.93}
+      - {x: 1.93, y: 0}
+      - {x: 0, y: -1.93}
+      - {x: 0, y: -1.92}

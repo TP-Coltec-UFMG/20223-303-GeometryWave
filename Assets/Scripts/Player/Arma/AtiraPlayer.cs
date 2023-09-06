@@ -8,29 +8,30 @@ public class AtiraPlayer : Atirador
     public int balaAtual = 0;
     public bool tiroAutomatico;
     private MudaBala mudaBala;
-    private PlayerNetwork PlayerNet;
+    private MenuManager menu;
 
     void Start() 
     {
-        tipos = GameObject.Find("Funcoes").GetComponent<TipoTiro>().player;
+        GameObject game_Manager = GameObject.Find("GameManager");
+        tipos = game_Manager.GetComponent<TipoTiro>().player;
+        menu = game_Manager.GetComponent<MenuManager>();
         mudaBala = atirador.GetComponent<MudaBala>();
-        PlayerNet = atirador.transform.root.GetComponent<PlayerNetwork>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(PlayerNet.CheckForClient() == false) return;
+        if(!IsOwner) return;
+        if(TimeManager.localPause == true) return; 
         balaAtual = mudaBala.modoTiro.Value;
         QuerAtirar();
+        tiroAutomatico = menu.AutoFire();
     }
 
-    void QuerAtirar() {
-        if(PlayerNet.CheckForClient())
-        {
-            if(Input.GetMouseButton(0) || tiroAutomatico) {
-                AtiraServerRpc(balaAtual);
-            }
+    void QuerAtirar()
+    {
+        if(Input.GetMouseButton(0) || tiroAutomatico) {
+            AtiraServerRpc(balaAtual);
         }
     }
 }

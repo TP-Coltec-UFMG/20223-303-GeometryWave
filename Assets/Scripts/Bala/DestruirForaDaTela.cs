@@ -1,15 +1,17 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class DestruirForaDaTela : NetworkBehaviour
+public class DestruirForaDaTela : FuncoesBala
 {
-    private void OnBecameInvisible() {
-       DestruirBalaServerRpc();
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.tag == "LimiteTela") {
+            DestroiBala();
+        }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    protected void DestruirBalaServerRpc()
-    {
-        Destroy(gameObject);
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "LimiteTela") {
+            DestroiBala();
+        }
     }
 }

@@ -6,24 +6,37 @@ using Unity.Netcode;
 public class MorreInimigo : NetworkBehaviour
 {
     private GameObject player;
+    private FlockAgent inimigoFlock;
     PlayerGerenciaXP playerXp;
     public int valorXp;
 
     void Start()
     {
         player = GameObject.Find("Player");
-        playerXp = player.GetComponent<PlayerGerenciaXP>();
+        
+        if(player) playerXp = player.GetComponent<PlayerGerenciaXP>();
 
         valorXp = GetComponent<ValoresSpawn>().valorXp;
+    }
+
+    [ClientRpc] void GivePlayerXpClientRpc(int xp)
+    {
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<PlayerGerenciaXP>().xp += xp;
+        }
     }
 
     [ServerRpc]
     public void MatarInimigoServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        // # FICA PRA QUANDO DECIDIRMOS COMO FUNCIONA O XP
-        // ulong clientId = serverRpcParams.Receive.SenderClientId;
-        // GameObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject;
-        // player.GetComponent<PlayerGerenciaXP>().xp = valorXp;
+        GivePlayerXpClientRpc(valorXp);
+
+        inimigoFlock = gameObject.GetComponent<FlockAgent>();
+        
+        if (inimigoFlock.AgentFlock)
+            inimigoFlock.AgentFlock.removeAgents(inimigoFlock);    
+
         Destroy(gameObject);
     }
 }
